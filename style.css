@@ -58,7 +58,10 @@ body {
     margin: 5% 0;
 }
 
-.calc-button-opt, .calc-button-opt-double, .calc-button-opt-triple, .calc-button {
+.calc-button,
+.calc-button-opt, 
+.calc-button-opt-double, 
+.calc-button-opt-triple {
     border: 2px solid var(--darker);
     box-shadow: 1px 2px 2px var(--darker);
     background: var(--dark);

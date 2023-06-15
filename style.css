@@ -1,0 +1,122 @@
+:root {
+    --dark: #453e42;
+    --darker: #000000;
+    --light: #fff;
+    --screen: #b0ce92;
+    --background-one: #4a536b;
+    --backgrounf-two: #aed6dc;
+    --background-three: #ff9a8d;
+}
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+* {
+    box-sizing: inherit;
+    font-family: 'Barlow', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(320deg, var(--background-one), var(--backgrounf-two), var(--background-three));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+}
+
+.container {
+    background-color: var(--dark);
+    border: 2px solid var(--light);
+    box-shadow: 1px 2px 2px var(--light);
+    border-radius: 20px;
+    flex-basis: 31.25rem;
+    height: 42.5rem;
+    padding: 40px;
+}
+
+#screen {
+    background: var(--screen);
+    border: 2px solid var(--dark);
+    box-shadow: 1px 2px 2px var(--darker);
+    border-radius: 10px;
+    font-family: 'Cuprum', sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    height: 4.5rem;
+    text-align: right;
+    overflow: auto;
+    padding: 4px;
+}
+
+.calc-button-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 5% 0;
+}
+
+.calc-button-opt, .calc-button-opt-double, .calc-button-opt-triple, .calc-button {
+    border: 2px solid var(--darker);
+    box-shadow: 1px 2px 2px var(--darker);
+    background: var(--dark);
+    border-radius: 10px;
+    color: var(--light);
+    font-size: 1.5rem;
+    transition: 0.4s;
+    height:4.375rem;
+    cursor: pointer;
+}
+
+.calc-button-opt-double {
+    flex-basis: 40%;
+}
+
+.calc-button-opt-triple {
+    flex-basis: 55%;
+}
+
+.calc-button-opt {
+    flex-basis: 15%;
+}
+
+.calc-button {
+    flex-basis: 20%;
+}
+
+.arrows {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.arrow {
+    border: 2px solid var(--darker);
+    box-shadow: 1px 2px 2px var(--darker);
+    background: var(--dark);
+    border-radius: 10px;
+    color: var(--light);
+    font-size: 1.5rem;
+    height: 2,1875rem;
+    width: 4rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.calc-button:hover,
+.calc-button-opt:hover,
+.calc-button-opt-double:hover, 
+.calc-button-opt-triple:hover,
+.arrow:hover {
+    opacity: 0.4;
+}
+
+.calc-button:active,
+.calc-button-opt:active,
+.calc-button-opt-double:active, 
+.calc-button-opt-triple:active,
+.arrow:active {
+    opacity: 0.8;
+}

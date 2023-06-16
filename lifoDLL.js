@@ -3,12 +3,11 @@ The LIFO based doubly linked list, that will be used as the
 container of the math expressions that have been inputed by 
 the user. 
 */
-
 export class Container {
-    constructor(exp, ans) {
+    constructor(data) {
         this.head = null; 
-        this.expresion = exp;
-        this.answer = ans;
+        this.curr = null; 
+        this.node = data; 
         this.next = null;
         this.prev = null; 
     }
@@ -38,6 +37,6 @@ export class Container {
     }
 
     goToFront() {
-        
+        this.curr = this.head; 
     }
 }

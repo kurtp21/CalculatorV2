@@ -8,7 +8,5 @@ The multi data type node that will contain:
 export function dataNode() {
     this.expresion = null;
     this.answer = null;
-    this.fwd = null;
-    this.prev = null; 
 }
 

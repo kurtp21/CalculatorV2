@@ -7,8 +7,9 @@ export class Container {
     constructor(data) {
         this.head = null; 
         this.curr = null; 
-        this.node = data; 
+
         this.next = null;
+        this.node = data; 
         this.prev = null; 
     }
 
@@ -24,19 +25,35 @@ export class Container {
         this.prev = prev; 
     }
 
-    getHead(data) {
+    getHead() {
         return this.head;
     }
 
-    getNext(next) {
+    getNext() {
         return this.next;
     }
 
-    getPrev(prev) {
+    getPrev() {
         return this.prev; 
     }
 
+    isFront() {
+        if (this.curr === this.head) {
+            return true; 
+        } else {
+            return false; 
+        }
+    }
+
     goToFront() {
-        this.curr = this.head; 
+        if (!(this.isFront())) {
+            this.curr = this.head; 
+        } else {
+            alert("Already at the front of the list!"); 
+        }
+    }
+
+    moveForward() {
+        if ()
     }
 }

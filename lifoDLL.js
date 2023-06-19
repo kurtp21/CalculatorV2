@@ -4,56 +4,25 @@ container of the math expressions that have been inputed by
 the user. 
 */
 export class Container {
-    constructor(data) {
-        this.head = null; 
-        this.curr = null; 
+    #head;
+    #curr;
+    #tail; 
 
-        this.next = null;
-        this.node = data; 
-        this.prev = null; 
+    constructor(data) {
+        this.#head = null;
+        this.#curr = null;
+        this.#tail = null; 
     }
 
     setHead(data) {
-        this.head = data; 
+        this.#head = data; 
     }
 
-    setNext(next) {
-        this.next = next;
+    setTail(data) {
+        this.#tail = data; 
     }
 
-    setPrev(prev) {
-        this.prev = prev; 
-    }
-
-    getHead() {
-        return this.head;
-    }
-
-    getNext() {
-        return this.next;
-    }
-
-    getPrev() {
-        return this.prev; 
-    }
-
-    isFront() {
-        if (this.curr === this.head) {
-            return true; 
-        } else {
-            return false; 
-        }
-    }
-
-    goToFront() {
-        if (!(this.isFront())) {
-            this.curr = this.head; 
-        } else {
-            alert("Already at the front of the list!"); 
-        }
-    }
-
-    moveForward() {
-        if ()
+    setCurr(data) {
+        this.#curr = data; 
     }
 }

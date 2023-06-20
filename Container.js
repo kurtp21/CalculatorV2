@@ -9,7 +9,7 @@ export class Container {
     #tail; 
     #numItems; 
 
-    constructor(data) {
+    constructor() {
         this.#head = null;
         this.#curr = null;
         this.#tail = null; 
@@ -27,6 +27,22 @@ export class Container {
     setCurr(data) {
         this.#curr = data; 
     }
+    
+    getHead() {
+        return this.#head; 
+    }
+
+    getTail() {
+        return this.#tail; 
+    }
+
+    getCurr() {
+        return this.#curr; 
+    }
+
+    getNumItems() {
+        return this.#numItems; 
+    }
 
     isHead() {
         return (this.#curr === this.#head); 
@@ -37,7 +53,7 @@ export class Container {
     }
 
     isEmpty() {
-        return (this.#numItems === 0); 
+        return (this.getNumItems() === 0); 
     }
 
     push(data) {
@@ -47,8 +63,9 @@ export class Container {
             this.setCurr(data);
             this.#numItems += 1; 
         } else {
-            prevNode = this.#head; 
+            var prevNode = this.#head; 
             prevNode.setPrev(data);
+            data.setNext(prevNode);
 
             this.setHead(data); 
             this.setCurr(data); 
@@ -57,18 +74,18 @@ export class Container {
     }
 
     pop() {
-        node = this.#curr; 
+        var node = this.#curr; 
         
         if (this.isEmpty()) {
-            return false;
+            return null;
         } else if (this.#numItems === 1) {
             this.setHead(null); 
             this.setTail(null);
             this.setCurr(null); 
             this.#numItems = 0 
         } else {
-           prevNode = this.#head; 
-           newHead = prevNode.getNext();
+           var prevNode = this.#head; 
+           var newHead = prevNode.getNext();
 
            prevNode.setNext(null); 
            newHead.setPrev(null); 
@@ -79,5 +96,43 @@ export class Container {
         }
 
         return node; 
+    }
+
+    moveForward() {
+        if (this.isEmpty() || this.isTail()) {
+            return false; 
+        } else {
+            var currNode = this.getCurr();
+            this.setCurr(currNode.getNext()); 
+            return true; 
+        }
+    }
+
+    moveBackward() {
+        if (this.isEmpty() || this.isHead()) {
+            return false; 
+        } else {
+            var currNode = this.getCurr(); 
+            this.setCurr(currNode.getPrev()); 
+            return true; 
+        }
+    }
+
+    goToFront() {
+        if (this.isEmpty() || this.isHead()) {
+            return false; 
+        } else {
+            this.setCurr(this.getHead());
+            return true; 
+        }
+    }
+
+    goToBack() {
+        if (this.isEmpty() || this.isTail()) {
+            return false; 
+        } else {
+            this.setCurr(this.getTail()); 
+            return true; 
+        }
     }
 }

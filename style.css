@@ -44,6 +44,7 @@ body {
     box-shadow: 1px 2px 2px var(--darker);
     border-radius: 10px;
     font-family: 'Cuprum', sans-serif;
+    letter-spacing: 0.2rem;
     font-weight: bold;
     font-size: 50px;
     height: 4.5rem;

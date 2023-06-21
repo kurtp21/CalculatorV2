@@ -18,43 +18,69 @@ const button = document.getElementById("calc-buttons");
 
 let dataStorage = new Container(); 
 let runningTotal = 0;
-let buffer = "0"; 
+let buffer = "0";
 
 button.addEventListener('click', function(event) {
     let opt = event.target.innerText; 
 
-    if (isNaN(opt)) {
-        handleOpt(opt);
-    } else {
-        handleNumber(opt); 
-    }
-
-    screen.innerText = buffer;
+    checkOpt(opt); 
+    screen.innerText = buffer; 
 }, false);
 
-function handleOpt(option) {
-    switch (option) {
+function checkOpt(input) {
+    switch (input) {
         case 'Clear':
-            buffer = "0";
-            runningTotal = 0; 
-            break; 
+            runningTotal = 0;
+            buffer = '0';
+            break;
         case 'Del':
             if (buffer.length === 1) {
-                buffer = "0";
+                buffer = '0';
             } else {
-                buffer = buffer.substring(0, buffer.length - 1);
+                buffer = buffer.substring(0, buffer.length - 1); 
             }
+            break; 
+        case '↑':
+            if (dataStorage.isEmpty()) {
+                alert("There are no expression stored in calculator!"); 
+                break; 
+            } else if (dataStorage.isTail()) {
+                dataStorage.goToFront(); 
+            } 
+
+            dataStorage.moveForward(); 
+            buffer = dataStorage.getCurr().getExp(); 
             break;
+        case '↓': 
+            if (dataStorage.isEmpty()) {
+                alert("There are no expression stored in calculator!"); 
+                break; 
+            } else if (dataStorage.isHead()) {
+                dataStorage.goToBack(); 
+            }
+
+            dataStorage.moveBackward();
+            buffer = dataStorage.getCurr().getExp(); 
+            break;
+        case '=':
+            let expression = new dataNode(buffer, 100); 
+            dataStorage.push(expression); 
+                
+            var answer = dataStorage.getCurr().getAns();
+            buffer = answer; 
+            runningTotal = 0; 
+            break; 
         default:
-            alert("Error in handleOpt()"); 
+            handleOperation(input);
             break;
     }
 }
 
-function handleNumber(numberString) {
+function handleOperation(inputStirng) {
     if (buffer === "0") {
-        buffer = numberString;
+        buffer = inputStirng;
     } else {
-        buffer += numberString; 
+        buffer += inputStirng; 
     }
 }
+

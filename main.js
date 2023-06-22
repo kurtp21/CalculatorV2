@@ -17,8 +17,9 @@ const screen = document.getElementById("screen");
 const button = document.getElementById("calc-buttons"); 
 
 let dataStorage = new Container(); 
-let runningTotal = 0;
+let prevExp = null; 
 let buffer = "0";
+let sign = false; 
 
 button.addEventListener('click', function(event) {
     let opt = event.target.innerText; 
@@ -30,7 +31,6 @@ button.addEventListener('click', function(event) {
 function checkOpt(input) {
     switch (input) {
         case 'Clear':
-            runningTotal = 0;
             buffer = '0';
             break;
         case 'Del':
@@ -62,25 +62,33 @@ function checkOpt(input) {
             dataStorage.moveBackward();
             buffer = dataStorage.getCurr().getExp(); 
             break;
-        case '=':
-            let expression = new dataNode(buffer, 100); 
-            dataStorage.push(expression); 
-                
-            var answer = dataStorage.getCurr().getAns();
-            buffer = answer; 
-            runningTotal = 0; 
-            break; 
+        case '±':
+            sign = true; 
+            break;  
         default:
-            handleOperation(input);
+            handleOperation(input, sign);
+            sign = false;
             break;
     }
 }
 
-function handleOperation(inputStirng) {
-    if (buffer === "0") {
-        buffer = inputStirng;
+function handleOperation(input, sign) {
+    if (sign) {
+        var newNum = (input * -1); 
+        var newString = "( )";
+        
+        if (buffer === "0") {
+            buffer = newString.replace(" ", newNum);
+        } else {
+            buffer += newString.replace(" ", newNum);
+        }
+
     } else {
-        buffer += inputStirng; 
+        if (buffer === "0") {
+            buffer = input;
+        } else {
+            buffer += input; 
+        }
     }
 }
 

@@ -4,7 +4,6 @@
  *   linked list to store data
 */
 
-
 import {
     dataNode
 } from './dataNode.js';
@@ -17,7 +16,8 @@ const screen = document.getElementById("screen");
 const button = document.getElementById("calc-buttons"); 
 
 let dataStorage = new Container(); 
-let prevExp = null; 
+let defaultNode = new dataNode("0", null); 
+let result = 0; 
 let buffer = "0";
 let sign = false; 
 
@@ -65,11 +65,32 @@ function checkOpt(input) {
         case '±':
             sign = true; 
             break;  
+        case '=': 
+            performArithmetic(input); 
+            break; 
         default:
             handleOperation(input, sign);
             sign = false;
             break;
     }
+}
+
+function performArithmetic(expression) {
+    result = performMath(expression);
+    var newNode = new dataNode(expression, result); 
+
+    if (dataStorage.isEmpty()) {
+        dataStorage.push(newNode); 
+        dataStorage.push(defaultNode); 
+    } else {
+        var prevNode = dataStorage.pop(); 
+        dataStorage.push(newNode); 
+        dataStorage.push(prevNode); 
+    }
+}
+
+function performMath(expression) {
+    
 }
 
 function handleOperation(input, sign) {

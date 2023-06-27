@@ -40,6 +40,17 @@ export class Container {
         return this.#curr; 
     }
 
+    getNext() {
+        if (this.getNumItems() <= 1) {
+            return false; 
+        } else {
+            this.moveForward(); 
+            let node = this.getCurr(); 
+            this.goToFront(); 
+            return node;
+        }
+    }
+
     getNumItems() {
         return this.#numItems; 
     }

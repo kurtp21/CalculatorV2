@@ -12,7 +12,6 @@ const button = document.getElementById("calc-buttons");
 let dataStorage = new Container(); 
 let defaultNode = new dataNode("0", null); 
 
-let error = false; 
 let sign = false; 
 let buffer = "0";
 
@@ -61,17 +60,18 @@ function checkOpt(input) {
             sign = true; 
             break;  
         case '=': 
-            errorCheck(buffer);
+            let error = errorCheck(buffer);
+            console.log(error);
 
             if (error) {
                 buffer = "ERROR"; 
                 break; 
+            } else {
+                performArithmetic(buffer); 
+                let answer = dataStorage.getNext().getAns(); 
+                buffer = answer; 
+                break; 
             }
-
-            performArithmetic(buffer); 
-            var answer = dataStorage.getNext().getAns(); 
-            buffer = answer; 
-            break; 
         default:
             handleOperation(input, sign);
             sign = false;
@@ -82,46 +82,64 @@ function checkOpt(input) {
 function errorCheck(expression) {
     if ((expression.length === 1) 
     && (isNaN(parseInt(expression)))) {
-        error = true; 
+        return true; 
     } else if (expression.length > 1) {
+        // console.log("GotHere");
         if (checkExpression(expression)) {
-            error = true; 
-        }  else {
-            error = false; 
-        }
+            console.log("GotHere");
+            return true;
+        } else {
+            return false; 
+        }        
     } else {
-        error = false; 
+        return false; 
     }
 }
 
 function checkExpression(expression) {
-    for (var i = 0; i < expression.length; i += 1) {
-        var char = parseInt(expression[i]);
-        if (isNaN(char)) {
-            if ((expression[i]) != "(" || (expression[i] != ")")) {
-                var nextChar = expression[i + 1]; 
+    console.log(expression);
+    let len = expression.length;
 
-                if ((isNaN(nextChar))
-                && ((nextChar != "(") || (nextChar != ")"))) {
-                    return true; 
+    for (let i = 0; i < len; i += 1) {
+        for (let j = i + 1; j < len; j += 1) {
+            let char1 = expression[i];
+            let char2 = expression[j];
+
+            console.log(char1, parseInt(char1));
+            console.log(char2, parseInt(char2));
+
+            if (isNaN(parseInt(char1)) && isNaN(parseInt(char2))) {
+                console.log("Got Here");
+                if (isParen(char1) && !isParen(char2)) {
+                    return false; 
+                } else if (!isParen(char1) && isParen(char2)) {
+                    return false; 
+                } else {
+                    return true;
                 }
             }
         }
     }
-    return false; 
+    return false;
+}
+
+function isParen(char) {
+    if ((char === "(") || (char === ")")) {
+        return true;
+    } else {
+        return false; 
+    }
 }
 
 function performArithmetic(expression) {
-    console.log(expression);
-    var result = math.evaluate(expression);
-    // var result = performMath(expression);
-    var newNode = new dataNode(expression, result); 
+    let result = math.evaluate(expression);
+    let newNode = new dataNode(expression, math.round(result, 10)); 
 
     if (dataStorage.isEmpty()) {
         dataStorage.push(newNode); 
         dataStorage.push(defaultNode); 
     } else {
-        var prevNode = dataStorage.pop(); 
+        let prevNode = dataStorage.pop(); 
         dataStorage.push(newNode); 
         dataStorage.push(prevNode); 
     }
@@ -129,8 +147,8 @@ function performArithmetic(expression) {
 
 function handleOperation(input, sign) {
     if (sign) {
-        var newNum = (input * -1); 
-        var newString = "( )";
+        let newNum = (input * -1); 
+        let newString = "( )";
         
         if (buffer === "0") {
             buffer = newString.replace(" ", newNum);
@@ -139,21 +157,6 @@ function handleOperation(input, sign) {
         }
 
     } else {
-        // if (input === "×") {
-        //     buffer += "*";
-        // } else if (input === "÷") {
-        //     buffer += "/";
-        // } else if (input === "−") {
-        //     buffer += "-"; 
-        // } else if (input === "+") {
-        //     buffer += "+";
-        // } else {
-        //     if (buffer === "0") {
-        //         buffer += input;
-        //     } else {
-        //         buffer += input; 
-        //     }
-        // }
         if (buffer === "0"){
             switch (input) {
                 case "×":

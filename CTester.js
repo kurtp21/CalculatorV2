@@ -204,3 +204,4 @@ if ((result5 === false)
 console.log(test1.getCurr().getAns()); 
 
 console.log("Test passed: " + passed + "/" + totalTests);
+

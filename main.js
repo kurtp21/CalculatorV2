@@ -5,6 +5,7 @@
 */
 import { dataNode } from './dataNode.js';
 import { Container } from './Container.js';
+// import { exp } from 'mathjs';
 
 const screen = document.getElementById("screen"); 
 const button = document.getElementById("calc-buttons"); 
@@ -84,9 +85,7 @@ function errorCheck(expression) {
     && (isNaN(parseInt(expression)))) {
         return true; 
     } else if (expression.length > 1) {
-        // console.log("GotHere");
         if (checkExpression(expression)) {
-            console.log("GotHere");
             return true;
         } else {
             return false; 
@@ -99,28 +98,47 @@ function errorCheck(expression) {
 function checkExpression(expression) {
     console.log(expression);
     let len = expression.length;
+    let count = 0;
 
     for (let i = 0; i < len; i += 1) {
-        for (let j = i + 1; j < len; j += 1) {
-            let char1 = expression[i];
-            let char2 = expression[j];
-
-            console.log(char1, parseInt(char1));
-            console.log(char2, parseInt(char2));
-
-            if (isNaN(parseInt(char1)) && isNaN(parseInt(char2))) {
-                console.log("Got Here");
-                if (isParen(char1) && !isParen(char2)) {
-                    return false; 
-                } else if (!isParen(char1) && isParen(char2)) {
-                    return false; 
-                } else {
-                    return true;
-                }
+        console.log(expression[i]);
+        if (isNaN(expression[i])) {
+            if (isNaN(expression[i + 1]) 
+            && (!isParen(expression[i + 1])) 
+            && (i < len - 1)) { 
+                count += 1;  
+            } else if (isParen(expression[i]) && (i === len - 1)) {
+                count += 1; 
+            } else if (isParen(expression[i + 1]) && (i + 1 < len - 1)) {
+                count -= 1; 
             }
-        }
+        } 
+        // for (let j = i + 1; j < len; j += 1) {
+        //     let char1 = expression[i];
+        //     let char2 = expression[j];
+
+        //     console.log(char1, parseInt(char1));
+        //     console.log(char2, parseInt(char2));
+
+        //     if (isNaN(parseInt(char1)) && isNaN(parseInt(char2))) {
+        //         console.log("Got Here");
+        //         if (isParen(char1) && !isParen(char2)) {
+        //             return false; 
+        //         } else if (!isParen(char1) && isParen(char2)) {
+        //             return false; 
+        //         } else {
+        //             return true;
+        //         }
+        //     }
+        // }
     }
-    return false;
+
+    if (count > 0) {
+        return true; 
+    } else if (count <= 0) {
+        return false; 
+    }
+    // return false;
 }
 
 function isParen(char) {

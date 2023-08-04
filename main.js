@@ -5,7 +5,6 @@
 */
 import { dataNode } from './dataNode.js';
 import { Container } from './Container.js';
-// import { exp } from 'mathjs';
 
 const screen = document.getElementById("screen"); 
 const button = document.getElementById("calc-buttons"); 
@@ -113,24 +112,6 @@ function checkExpression(expression) {
                 count -= 1; 
             }
         } 
-        // for (let j = i + 1; j < len; j += 1) {
-        //     let char1 = expression[i];
-        //     let char2 = expression[j];
-
-        //     console.log(char1, parseInt(char1));
-        //     console.log(char2, parseInt(char2));
-
-        //     if (isNaN(parseInt(char1)) && isNaN(parseInt(char2))) {
-        //         console.log("Got Here");
-        //         if (isParen(char1) && !isParen(char2)) {
-        //             return false; 
-        //         } else if (!isParen(char1) && isParen(char2)) {
-        //             return false; 
-        //         } else {
-        //             return true;
-        //         }
-        //     }
-        // }
     }
 
     if (count > 0) {
@@ -138,7 +119,6 @@ function checkExpression(expression) {
     } else if (count <= 0) {
         return false; 
     }
-    // return false;
 }
 
 function isParen(char) {

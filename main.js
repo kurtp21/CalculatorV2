@@ -14,6 +14,7 @@ let defaultNode = new dataNode("0", null);
 
 let sign = false; 
 let buffer = "0";
+let newOp = false; 
 
 button.addEventListener('click', function(event) {
     let opt = event.target.innerText; 
@@ -33,6 +34,7 @@ function checkOpt(input) {
             } else {
                 buffer = buffer.substring(0, buffer.length - 1); 
             }
+
             break; 
         case '↑':
             if (dataStorage.isEmpty()) {
@@ -43,6 +45,7 @@ function checkOpt(input) {
             } else {  
                 dataStorage.moveForward(); 
             }
+
             buffer = dataStorage.getCurr().getExp(); 
             break;
         case '↓': 
@@ -54,6 +57,7 @@ function checkOpt(input) {
             } else {
                 dataStorage.moveBackward();
             }
+
             buffer = dataStorage.getCurr().getExp(); 
             break;
         case '±':
@@ -61,7 +65,7 @@ function checkOpt(input) {
             break;  
         case '=': 
             let error = errorCheck(buffer);
-            console.log(error);
+            newOp = true; 
 
             if (error) {
                 buffer = "ERROR"; 
@@ -73,6 +77,11 @@ function checkOpt(input) {
                 break; 
             }
         default:
+            if (newOp) {
+                buffer = dataStorage.getHead().getExp(); 
+                newOp = false;
+            }
+
             handleOperation(input, sign);
             sign = false;
             break;
@@ -80,8 +89,7 @@ function checkOpt(input) {
 }
 
 function errorCheck(expression) {
-    if ((expression.length === 1) 
-    && (isNaN(parseInt(expression)))) {
+    if ((expression.length === 1) && (isNaN(parseInt(expression)))) {
         return true; 
     } else if (expression.length > 1) {
         if (checkExpression(expression)) {
@@ -95,16 +103,15 @@ function errorCheck(expression) {
 }
 
 function checkExpression(expression) {
-    console.log(expression);
     let len = expression.length;
     let count = 0;
+    let symCount = 0;
 
     for (let i = 0; i < len; i += 1) {
-        console.log(expression[i]);
         if (isNaN(expression[i])) {
-            if (isNaN(expression[i + 1]) 
-            && (!isParen(expression[i + 1])) 
-            && (i < len - 1)) { 
+            symCount += 1; 
+
+            if (isNaN(expression[i + 1]) && (!isParen(expression[i + 1])) && (i < len - 1)) { 
                 count += 1;  
             } else if (isParen(expression[i]) && (i === len - 1)) {
                 count += 1; 
@@ -115,6 +122,8 @@ function checkExpression(expression) {
     }
 
     if (count > 0) {
+        return true; 
+    } else if ((count > 0) && (symCount === len)) {
         return true; 
     } else if (count <= 0) {
         return false; 
@@ -153,7 +162,6 @@ function handleOperation(input, sign) {
         } else {
             buffer += newString.replace(" ", newNum);
         }
-
     } else {
         if (buffer === "0"){
             switch (input) {

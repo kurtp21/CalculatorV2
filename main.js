@@ -1,8 +1,10 @@
 /**
  * The inner worikgs of the calculator 
- * - Makes use of a stack based doubly 
- *   linked list to store data
-*/
+ * - Makes use of a stack based doubly linked list to store data
+ * - Uses an extension: math.js for the use of its math expresion parser
+ */
+
+// Importing the required files for the calculator 
 import { dataNode } from './dataNode.js';
 import { Container } from './Container.js';
 
@@ -12,9 +14,9 @@ const button = document.getElementById("calc-buttons");
 let dataStorage = new Container(); 
 let defaultNode = new dataNode("0", null); 
 
+let newOp = false; 
 let sign = false; 
 let buffer = "0";
-let newOp = false; 
 
 button.addEventListener('click', function(event) {
     let opt = event.target.innerText; 

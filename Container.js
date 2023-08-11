@@ -122,12 +122,12 @@ export class Container {
      * @param {*} data : A dataNode to be pushed on the Container stack 
      */
     push(data) {
-        if (this.isEmpty()) {
+        if (this.isEmpty()) {   // Inserting to an empty stack
             this.setHead(data);
             this.setTail(data);
             this.setCurr(data);
             this.#numItems += 1; 
-        } else {
+        } else {    // Inserting to stack with items 
             var prevNode = this.#head; 
             prevNode.setPrev(data);
             data.setNext(prevNode);
@@ -144,16 +144,16 @@ export class Container {
      *              Container stack 
      */
     pop() {
-        var node = this.#curr; 
+        var node = this.#curr;  // A placeholder node
         
-        if (this.isEmpty()) {
+        if (this.isEmpty()) {   // Case 1: Stack is empty
             return null;
-        } else if (this.#numItems === 1) {
+        } else if (this.#numItems === 1) {  // Case 2: Stack has only 1 item 
             this.setHead(null); 
             this.setTail(null);
             this.setCurr(null); 
             this.#numItems = 0 
-        } else {
+        } else {    // Case 3: Stack has multiple items 
            var prevNode = this.#head; 
            var newHead = prevNode.getNext();
 

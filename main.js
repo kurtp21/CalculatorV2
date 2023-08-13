@@ -11,63 +11,80 @@ import { Container } from './Container.js';
 const screen = document.getElementById("screen"); 
 const button = document.getElementById("calc-buttons"); 
 
-let dataStorage = new Container(); 
-let defaultNode = new dataNode("0", null); 
+let dataStorage = new Container();      // Create an instance of the stack container 
+let defaultNode = new dataNode("0", null);      // Crate a deafult dataNode 
 
-let newOp = false; 
-let sign = false; 
-let buffer = "0";
+let newOp = false;      // A flag if an answer is diplayed: Will be used to clear the screen 
+let sign = false;       // A flag if the +/- sign has been used 
+let buffer = "0";       // Buffer for the text on the screen 
 
+// Check if a button has been pressed 
 button.addEventListener('click', function(event) {
-    let opt = event.target.innerText; 
+    let opt = event.target.innerText;       // Get the text of the button pressed 
 
-    checkOpt(opt); 
-    screen.innerText = buffer; 
+    checkOpt(opt);      // Then call opperation function 
+    screen.innerText = buffer;      // Update the screen to current buffer after update
 }, false);
 
+/**
+ * checkOpt(input): Checks the given input and applys the corresponding operation 
+ *                  to be done
+ * @param {*} input : The text input from the button pressed 
+ */
 function checkOpt(input) {
+    // Check what case "input" is 
     switch (input) {
         case 'Clear':
             buffer = '0';
             break;
-        case 'Del':
-            if (buffer.length === 1) {
+        case 'Del'  :
+            if (buffer.length === 1) {      
                 buffer = '0';
             } else {
-                buffer = buffer.substring(0, buffer.length - 1); 
+                // Get a substring of the buffer that is one less of the original 
+                // Then replace buffer with the substring 
+                var newString = buffer.slice(0, -1); 
+                buffer = newString;
             }
 
             break; 
         case '↑':
-            if (dataStorage.isEmpty()) {
+            if (dataStorage.isEmpty()) {    // Container is empty
+                // Prompt an alert 
                 alert("There are no expression stored in calculator!"); 
                 break; 
-            } else if (dataStorage.isTail()) {
+            } else if (dataStorage.isTail()) {  // Pointer is at the end of the Container 
+                // Move the pointer to the front
                 dataStorage.goToFront(); 
-            } else {  
+            } else {  // Pointer is either at the front or somewhere in the middle of the Container 
                 dataStorage.moveForward(); 
             }
 
+            // Update the buffer with the new dataNode the pointer is pointing to  
             buffer = dataStorage.getCurr().getExp(); 
             break;
         case '↓': 
-            if (dataStorage.isEmpty()) {
+            if (dataStorage.isEmpty()) {    // Container is empty
+                // Prompt an alert 
                 alert("There are no expression stored in calculator!"); 
                 break; 
-            } else if (dataStorage.isHead()) {
+            } else if (dataStorage.isHead()) {  // Pointer is at the front of the Container 
+                // Move the pointer to the back
                 dataStorage.goToBack(); 
-            } else {
+            } else {    // Pointer is either at the back or somewhere in the middle of the Container 
                 dataStorage.moveBackward();
             }
 
+            // Update the buffer with the new dataNode the pointer is pointing to  
             buffer = dataStorage.getCurr().getExp(); 
             break;
-        case '±':
-            sign = true; 
+        case '±':   
+            // Update sign flag
+            sign = true;    
             break;  
         case '=': 
-            let error = errorCheck(buffer);
-            newOp = true; 
+            let error = errorCheck(buffer);     // An error flag for error checking 
+            newOp = true;   // Update newOp flag: Answer has been displayed 
 
             if (error) {
                 buffer = "ERROR"; 
@@ -204,4 +221,6 @@ function handleOperation(input, sign) {
         }
     }
 }
+
+console.log(dataStorage);
 
